@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Senior Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #1e1e2e;
+    --accent1: #f97316;
+    --accent2: #3b82f6;
+    --accent3: #22c55e;
+    --accent4: #a855f7;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --done: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(59,130,246,0.15));
+    border: 1px solid rgba(249,115,22,0.3);
+    color: var(--accent1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 span.java { color: var(--accent1); }
+  .header h1 span.arrow { color: var(--muted); font-weight: 400; }
+  .header h1 span.senior { color: var(--accent2); }
+
+  .header-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+
+  /* vertical line */
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+      var(--accent1) 0%,
+      var(--accent2) 33%,
+      var(--accent3) 66%,
+      var(--accent4) 100%);
+    opacity: 0.4;
+  }
+
+  /* ── PHASE ── */
+  .phase {
+    margin-bottom: 56px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .phase:nth-child(1) { animation-delay: 0.1s; }
+  .phase:nth-child(2) { animation-delay: 0.2s; }
+  .phase:nth-child(3) { animation-delay: 0.3s; }
+  .phase:nth-child(4) { animation-delay: 0.4s; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-left: 16px;
+  }
+
+  .phase-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+    background: var(--bg);
+    margin-left: -13px;
+  }
+
+  .phase-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.1;
+  }
+
+  .phase-title-block {}
+  .phase-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+  .phase-title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .phase-dates {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── WEEKS GRID ── */
+  .weeks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    padding-left: 56px;
+  }
+
+  .week-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    cursor: default;
+  }
+
+  .week-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .week-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .week-card.active {
+    border-color: var(--accent1);
+    background: rgba(249,115,22,0.05);
+  }
+  .week-card.active::after {
+    content: '← YOU ARE HERE';
+    position: absolute;
+    top: 8px; right: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--accent1);
+    background: rgba(249,115,22,0.15);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  .week-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.5;
+  }
+
+  .week-topic {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .week-why {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .week-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted);
+  }
+
+  /* phase color overrides */
+  .p1 { color: var(--accent1); }
+  .p2 { color: var(--accent2); }
+  .p3 { color: var(--accent3); }
+  .p4 { color: var(--accent4); }
+
+  /* ── DAILY SCHEDULE ── */
+  .daily-section {
+    margin-top: 64px;
+    animation: fadeUp 0.6s 0.5s ease both;
+  }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    padding-left: 56px;
+  }
+
+  .daily-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding-left: 56px;
+  }
+
+  .day-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .day-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .day-activity {
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .day-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent1);
+  }
+
+  /* ── RULES ── */
+  .rules-section {
+    margin-top: 48px;
+    padding-left: 56px;
+    animation: fadeUp 0.6s 0.6s ease both;
+  }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .rule-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .rule-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    opacity: 0.15;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .rule-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .rule-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── GITHUB SECTION ── */
+  .github-section {
+    margin-top: 48px;
+    padding-left: 56px;
+    animation: fadeUp 0.6s 0.7s ease both;
+  }
+
+  .github-card {
+    background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(59,130,246,0.08));
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .github-icon {
+    font-size: 40px;
+    flex-shrink: 0;
+  }
+
+  .github-text h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    color: var(--accent3);
+  }
+
+  .github-text p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .commit-example {
+    margin-top: 12px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 64px;
+    text-align: center;
+    padding-left: 56px;
+    animation: fadeUp 0.6s 0.8s ease both;
+  }
+
+  .footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .footer-text strong {
+    color: var(--accent1);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .timeline::before { left: 20px; }
+    .phase-header { padding-left: 8px; }
+    .phase-dot { margin-left: -13px; }
+    .weeks-grid, .daily-grid, .rules-grid, .section-title,
+    .rules-section, .github-section, .footer, .github-card { padding-left: 0; }
+    .daily-grid { grid-template-columns: repeat(2, 1fr); }
+    .rules-grid { grid-template-columns: 1fr; }
+    .github-card { flex-direction: column; }
+    .phase-dates { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">// personal roadmap</div>
+    <h1>
+      <span class="java">Java Mid</span>
+      <span class="arrow"> → </span>
+      <span class="senior">Senior</span>
+    </h1>
+    <p class="header-sub">$ duration: 16 weeks &nbsp;|&nbsp; commits: 80+ &nbsp;|&nbsp; level_up: guaranteed</p>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" style="color:var(--accent1)">4</div>
+        <div class="stat-label">Phases</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:var(--accent2)">16</div>
+        <div class="stat-label">Weeks</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:var(--accent3)">~4</div>
+        <div class="stat-label">Months</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:var(--accent4)">1</div>
+        <div class="stat-label">Pet Project</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline">
+
+    <!-- PHASE 1 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot p1">01</div>
+        <div class="phase-title-block">
+          <div class="phase-num p1">Phase 01</div>
+          <div class="phase-title">Java Core Foundation</div>
+        </div>
+        <div class="phase-dates">Weeks 1–4<br>Month 1</div>
+      </div>
+      <div class="weeks-grid">
+        <div class="week-card p1 active">
+          <div class="week-label">Week 01</div>
+          <div class="week-topic">OOP & SOLID Principles</div>
+          <div class="week-why">Every code review will test this. The language of seniors.</div>
+          <div class="week-tags">
+            <span class="tag">Polymorphism</span>
+            <span class="tag">SOLID</span>
+            <span class="tag">Refactoring</span>
+          </div>
+        </div>
+        <div class="week-card p1">
+          <div class="week-label">Week 02</div>
+          <div class="week-topic">Collections & Generics</div>
+          <div class="week-why">Used in every Spring project. HashMap internals = interview gold.</div>
+          <div class="week-tags">
+            <span class="tag">HashMap</span>
+            <span class="tag">equals/hashCode</span>
+            <span class="tag">Generics</span>
+          </div>
+        </div>
+        <div class="week-card p1">
+          <div class="week-label">Week 03</div>
+          <div class="week-topic">Exceptions & String Handling</div>
+          <div class="week-why">Common interview traps. Production bugs live here.</div>
+          <div class="week-tags">
+            <span class="tag">Custom Exceptions</span>
+            <span class="tag">try-with-resources</span>
+            <span class="tag">StringBuilder</span>
+          </div>
+        </div>
+        <div class="week-card p1">
+          <div class="week-label">Week 04</div>
+          <div class="week-topic">Multithreading Basics</div>
+          <div class="week-why">REST APIs are multi-threaded. Race conditions kill production.</div>
+          <div class="week-tags">
+            <span class="tag">synchronized</span>
+            <span class="tag">volatile</span>
+            <span class="tag">AtomicInteger</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot p2">02</div>
+        <div class="phase-title-block">
+          <div class="phase-num p2">Phase 02</div>
+          <div class="phase-title">Spring Mastery</div>
+        </div>
+        <div class="phase-dates">Weeks 5–8<br>Month 2</div>
+      </div>
+      <div class="weeks-grid">
+        <div class="week-card p2">
+          <div class="week-label">Week 05</div>
+          <div class="week-topic">Spring IoC & Bean Lifecycle</div>
+          <div class="week-why">How Spring actually works under the hood. Not just annotations.</div>
+          <div class="week-tags">
+            <span class="tag">DI</span>
+            <span class="tag">Bean Scopes</span>
+            <span class="tag">ApplicationContext</span>
+          </div>
+        </div>
+        <div class="week-card p2">
+          <div class="week-label">Week 06</div>
+          <div class="week-topic">Spring Boot Internals</div>
+          <div class="week-why">Senior must explain what Spring Boot does automatically for you.</div>
+          <div class="week-tags">
+            <span class="tag">AutoConfiguration</span>
+            <span class="tag">Actuator</span>
+            <span class="tag">Profiles</span>
+          </div>
+        </div>
+        <div class="week-card p2">
+          <div class="week-label">Week 07</div>
+          <div class="week-topic">REST Best Practices</div>
+          <div class="week-why">You do this daily. Now do it at senior level with proper patterns.</div>
+          <div class="week-tags">
+            <span class="tag">Exception Handling</span>
+            <span class="tag">Validation</span>
+            <span class="tag">DTO Pattern</span>
+          </div>
+        </div>
+        <div class="week-card p2">
+          <div class="week-label">Week 08</div>
+          <div class="week-topic">Spring Security & JWT</div>
+          <div class="week-why">Every real API needs auth. Non-negotiable for senior role.</div>
+          <div class="week-tags">
+            <span class="tag">JWT</span>
+            <span class="tag">OAuth2</span>
+            <span class="tag">Filters</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot p3">03</div>
+        <div class="phase-title-block">
+          <div class="phase-num p3">Phase 03</div>
+          <div class="phase-title">Data Layer</div>
+        </div>
+        <div class="phase-dates">Weeks 9–12<br>Month 3</div>
+      </div>
+      <div class="weeks-grid">
+        <div class="week-card p3">
+          <div class="week-label">Week 09</div>
+          <div class="week-topic">SQL Deep Dive</div>
+          <div class="week-why">Interviews always test SQL. Indexes and transactions separate seniors.</div>
+          <div class="week-tags">
+            <span class="tag">Joins</span>
+            <span class="tag">Indexes</span>
+            <span class="tag">Transactions</span>
+          </div>
+        </div>
+        <div class="week-card p3">
+          <div class="week-label">Week 10</div>
+          <div class="week-topic">Hibernate & JPA</div>
+          <div class="week-why">N+1 problem is the most common production bug. Fix it like a senior.</div>
+          <div class="week-tags">
+            <span class="tag">Lazy Loading</span>
+            <span class="tag">N+1 Problem</span>
+            <span class="tag">Caching</span>
+          </div>
+        </div>
+        <div class="week-card p3">
+          <div class="week-label">Week 11</div>
+          <div class="week-topic">Database Design</div>
+          <div class="week-why">Seniors design schemas, not just write queries.</div>
+          <div class="week-tags">
+            <span class="tag">Normalization</span>
+            <span class="tag">Keys</span>
+            <span class="tag">Migrations</span>
+          </div>
+        </div>
+        <div class="week-card p3">
+          <div class="week-label">Week 12</div>
+          <div class="week-topic">Testing — JUnit 5 & Mockito</div>
+          <div class="week-why">Seniors write tests. Juniors don't. This alone sets you apart.</div>
+          <div class="week-tags">
+            <span class="tag">Unit Tests</span>
+            <span class="tag">Mockito</span>
+            <span class="tag">Integration Tests</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-dot p4">04</div>
+        <div class="phase-title-block">
+          <div class="phase-num p4">Phase 04</div>
+          <div class="phase-title">Think Like a Senior</div>
+        </div>
+        <div class="phase-dates">Weeks 13–16<br>Month 4</div>
+      </div>
+      <div class="weeks-grid">
+        <div class="week-card p4">
+          <div class="week-label">Week 13</div>
+          <div class="week-topic">Design Patterns</div>
+          <div class="week-why">Seniors name patterns. Juniors reinvent them every time.</div>
+          <div class="week-tags">
+            <span class="tag">Factory</span>
+            <span class="tag">Strategy</span>
+            <span class="tag">Observer</span>
+          </div>
+        </div>
+        <div class="week-card p4">
+          <div class="week-label">Week 14</div>
+          <div class="week-topic">Microservices Concepts</div>
+          <div class="week-why">Where the industry is heading. Know the theory and tradeoffs.</div>
+          <div class="week-tags">
+            <span class="tag">REST Design</span>
+            <span class="tag">API Gateway</span>
+            <span class="tag">Docker basics</span>
+          </div>
+        </div>
+        <div class="week-card p4">
+          <div class="week-label">Week 15</div>
+          <div class="week-topic">Performance & Optimization</div>
+          <div class="week-why">Seniors fix slowness. Juniors just add more servers.</div>
+          <div class="week-tags">
+            <span class="tag">GC Tuning</span>
+            <span class="tag">Connection Pools</span>
+            <span class="tag">Caching</span>
+          </div>
+        </div>
+        <div class="week-card p4">
+          <div class="week-label">Week 16</div>
+          <div class="week-topic">Interview Prep & System Design</div>
+          <div class="week-why">The final boss. Combine everything. Mock interview ready.</div>
+          <div class="week-tags">
+            <span class="tag">System Design</span>
+            <span class="tag">Mock Interview</span>
+            <span class="tag">Portfolio Review</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+
+  <!-- DAILY SCHEDULE -->
+  <div class="daily-section">
+    <div class="section-title">// daily schedule (Mon–Fri)</div>
+    <div class="daily-grid">
+      <div class="day-block">
+        <div class="day-name">Monday</div>
+        <div class="day-activity">New concept + theory</div>
+        <div class="day-time">~30 min</div>
+      </div>
+      <div class="day-block">
+        <div class="day-name">Tuesday</div>
+        <div class="day-activity">Coding challenge</div>
+        <div class="day-time">~30 min</div>
+      </div>
+      <div class="day-block">
+        <div class="day-name">Wednesday</div>
+        <div class="day-activity">Fix broken code</div>
+        <div class="day-time">~30 min</div>
+      </div>
+      <div class="day-block">
+        <div class="day-name">Thursday</div>
+        <div class="day-activity">Pet project feature</div>
+        <div class="day-time">~45 min</div>
+      </div>
+      <div class="day-block">
+        <div class="day-name">Friday</div>
+        <div class="day-activity">Review + GitHub push</div>
+        <div class="day-time">~20 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 RULES -->
+  <div class="rules-section">
+    <div class="section-title" style="padding-left:0">// the 3 rules</div>
+    <div class="rules-grid">
+      <div class="rule-card">
+        <div class="rule-num">01</div>
+        <div class="rule-title">Code Every Day</div>
+        <div class="rule-desc">Even 30 minutes. Reading theory without coding = forgot in a week. You already know this about yourself.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">02</div>
+        <div class="rule-title">One Pet Project</div>
+        <div class="rule-desc">Employee Management API. Add one feature per week. By week 16 it's a full portfolio project with auth, tests, and clean architecture.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">03</div>
+        <div class="rule-title">One Topic at a Time</div>
+        <div class="rule-desc">The JAT doc has 200+ topics. Don't panic. Seniors know the core deeply and learn the rest fast. Focus beats breadth.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GITHUB -->
+  <div class="github-section">
+    <div class="section-title" style="padding-left:0">// github strategy</div>
+    <div class="github-card">
+      <div class="github-icon">🟩</div>
+      <div class="github-text">
+        <h3>Daily commits = proof of work no CV can fake</h3>
+        <p>Repository: java-senior-roadmap &nbsp;|&nbsp; Visibility: PUBLIC &nbsp;|&nbsp; Commits: 5 per week minimum</p>
+        <div class="commit-example">
+          $ git commit -m "Week 1 Day 1: SOLID — UserService refactor"<br>
+          $ git commit -m "Week 1 Day 2: Collections — HashMap bug fix"<br>
+          $ git commit -m "Week 2 Day 1: Spring IoC — custom BeanFactory"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="footer-text">
+      You are currently on <strong>Week 1, Day 1</strong>. &nbsp;The gap between mid and senior is not knowledge — it's <strong>consistency</strong>.<br>
+      16 weeks from now you will look back at this roadmap and not recognise how much you've grown. <strong>Let's go. 🚀</strong>
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
